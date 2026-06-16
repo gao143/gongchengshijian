@@ -49,6 +49,10 @@
 
 前端通过代理访问后端 API
 
+##### 添加测试用例
+
+运行`backend\init\test_insert.py`
+
 ## Agent API配置
 
 运行一次后端后，会生成一个`backend\config\config.toml`文件，在该文件中配置`api_key`和`base_url`后重新运行后端即可

@@ -12,7 +12,7 @@ from pathlib import Path
 import tomli
 
 from langchain_openai import ChatOpenAI
-from langchain_core.messages import HumanMessage, SystemMessage
+from langchain_core.messages import HumanMessage, SystemMessage, AIMessage
 
 from .rag import retrieve, format_retrieved_context, init_knowledge_base
 from .prompts import SYSTEM_PROMPT, RAG_QUERY_TEMPLATE
@@ -58,9 +58,15 @@ def get_llm():
     """获取 LLM 实例（单例）"""
     global _llm
     if _llm is None:
+        # 某些模型不支持自定义 temperature，只能设为 1
+        model = LLM_CONFIG["model"]
+        temperature = LLM_CONFIG["temperature"]
+        if model in ["kimi-k2.5"]:
+            temperature = 1
+
         _llm = ChatOpenAI(
-            model=LLM_CONFIG["model"],
-            temperature=LLM_CONFIG["temperature"],
+            model=model,
+            temperature=temperature,
             max_tokens=LLM_CONFIG["max_tokens"],
             api_key=LLM_CONFIG["api_key"],
             base_url=LLM_CONFIG["base_url"] if LLM_CONFIG["base_url"] else None,
@@ -115,8 +121,13 @@ async def chat(request: ChatRequest):
         # 5. 添加历史对话（截断）
         if request.history:
             for msg in request.history[-RAG_CONFIG["max_history"]:]:
+                # 跳过无效消息
+                if not msg.content:
+                    continue
                 if msg.role == "user":
                     messages.append(HumanMessage(content=msg.content))
+                elif msg.role == "assistant":
+                    messages.append(AIMessage(content=msg.content))
                 else:
                     messages.append(SystemMessage(content=msg.content))
 
