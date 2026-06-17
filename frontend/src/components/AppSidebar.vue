@@ -49,10 +49,6 @@
         <span slot="title">{{ $t('title.xrdTool') }}</span>
       </el-menu-item>
 
-      <el-menu-item index="/api-info">
-        <i class="el-icon-connection"></i>
-        <span slot="title">{{ $t('title.apiInfo') }}</span>
-      </el-menu-item>
 
       <el-submenu index="news-group">
         <template slot="title">

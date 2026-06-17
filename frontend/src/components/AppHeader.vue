@@ -28,7 +28,6 @@
           <el-menu-item index="/integration-materials">{{ $t('material.integration') }}</el-menu-item>
         </el-submenu>
         <el-menu-item index="/literature">{{ $t('nav.literature') }}</el-menu-item>
-        <el-menu-item index="/api-info">{{ $t('nav.api') }}</el-menu-item>
         <el-submenu index="news">
           <template slot="title">{{ $t('nav.news') }}</template>
           <el-menu-item index="/newsList">{{ $t('news.newsCenter') }}</el-menu-item>
@@ -59,7 +58,7 @@
       <el-dropdown trigger="click" @command="handleUserCommand">
         <span class="user-info">
           <i class="el-icon-user-solid"></i>
-          {{ userInfo ? userInfo.nickname || userInfo.username : 'User' }}
+          {{ userInfo ? userInfo.nickname || userInfo.username : $t('common.username') }}
           <i class="el-icon-arrow-down el-icon--right"></i>
         </span>
         <el-dropdown-menu slot="dropdown">
@@ -89,7 +88,6 @@ export default {
       if (path.includes('molecule')) return '/molecule'
       if (path.includes('materials') || path.includes('material') || path.includes('catalytic') || path.includes('integration')) return '/materials'
       if (path.includes('literature')) return '/literature'
-      if (path.includes('api')) return '/api-info'
       if (path.includes('news')) return '/newsList'
       if (path.includes('announcement')) return '/announcementList'
       if (path.includes('community')) return '/community'
@@ -128,7 +126,7 @@ export default {
       }).catch(() => {})
     },
     showChangeNicknameDialog() {
-      this.$prompt(this.$t('common.nickname'), this.$t('Confirm change nickname'), {
+      this.$prompt(this.$t('common.nickname'), this.$t('common.nickname'), {
         confirmButtonText: this.$t('btn.confirm'),
         cancelButtonText: this.$t('btn.cancel'),
         inputValue: this.userInfo ? this.userInfo.nickname : ''

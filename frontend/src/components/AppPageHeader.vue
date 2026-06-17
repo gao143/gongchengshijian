@@ -1,6 +1,6 @@
 <template>
   <div class="app-page-header">
-    <el-page-header :content="$t(metaTitle)" @back="handleBack">
+    <el-page-header :content="$t(metaTitle)" title="" @back="handleBack">
       <template slot="content">
         <span>{{ $t(metaTitle) }}</span>
       </template>
